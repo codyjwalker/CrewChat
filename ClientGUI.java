@@ -1,0 +1,5 @@
+public Class ClientGUI {
+
+    ClientGUI() {
+    }
+}
