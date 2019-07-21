@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Date;
 
 public class Server {
 
@@ -48,6 +49,29 @@ public class Server {
 
 
     /*
+     * Broadcast message to all clients in the Server.
+     */
+    private synchronized void broadcast(String message) {
+        // Add time to beginning and newline to end of message.
+        String timeStr = this.simpleDateFormat.format(new Date());
+        String finalMessage = timeStr + " " + message + "\n";
+        System.out.print(finalMessage);
+
+        // Loop in reverse order in case a Client disconnected.
+        for (int i = clients.size() - 1; i >= 0; i--) {
+            ClientHandler clientHandler = clients.get(i);
+
+            // Try writing to Client & REMOVE client if writing fails.
+            if (clientHandler.writeMessage(finalMessage)) {
+                clients.remove(i);
+                System.out.println("DISCONNECTED CLIENT " +
+                        clientHandler.username);
+            }
+        }
+    }
+
+
+    /*
      * To run server, simply enter:
      *      java Server
      * into the command prompt.
@@ -65,10 +89,17 @@ public class Server {
      */
     class ClientHandler extends Thread {
 
+        private String username;
+
+
         ClientHandler(Socket socket) {
         }
 
         public void run() {
+        }
+
+        private boolean writeMessage(String message) {
+            return false;
         }
     
     }
