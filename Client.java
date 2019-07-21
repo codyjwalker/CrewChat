@@ -114,7 +114,7 @@ public class Client {
         if (this.clientGUI != null) {
             this.clientGUI.append(message + "\n");
         } else {
-            System.out.println(message);
+            System.out.print(message);
         }
     }
 

@@ -21,12 +21,13 @@ public class Server {
     private static int uniqueID;        // ID for each connection.
 
     private ArrayList<ClientHandler> clients;   // List of clients.
-    private SimpleDateFormat simpleDateFormat;  // For displaying time.
+//    private SimpleDateFormat simpleDateFormat;  // For displaying time.
 
     
     private void start() {
         ServerSocket serverSocket;
         uniqueID = 0;
+        clients = new ArrayList<ClientHandler>();
 
         try {
             // Create ServerSocket.
@@ -56,16 +57,18 @@ public class Server {
      */
     private synchronized void broadcast(String message) {
         // Add time to beginning and newline to end of message.
-        String timeStr = this.simpleDateFormat.format(new Date());
-        String finalMessage = timeStr + " " + message + "\n";
+        //String timeStr = this.simpleDateFormat.format(new Date());
+        //String finalMessage = timeStr + " " + message + "\n";
+        String finalMessage = message + "\n";
         System.out.print(finalMessage);
 
         // Loop in reverse order in case a Client disconnected.
-        for (int i = clients.size() - 1; i >= 0; i--) {
+        for (int i = clients.size(); --i >= 0;) {
+
             ClientHandler clientHandler = clients.get(i);
 
             // Try writing to Client & REMOVE client if writing fails.
-            if (clientHandler.writeMessage(finalMessage)) {
+            if (!clientHandler.writeMessage(finalMessage)) {
                 clients.remove(i);
                 System.out.println("DISCONNECTED CLIENT " +
                         clientHandler.username);
@@ -78,7 +81,15 @@ public class Server {
      * Called by ClientHandler of a Client upon logging out.
      */
     private synchronized void remove(int ID) {
-        this.clients.remove(ID);
+
+        for (int i = 0; i < clients.size(); ++i) {
+            ClientHandler clientHandler = clients.get(i);
+            if (clientHandler.ID == ID) {
+                clients.remove(i);
+                System.out.println("CLIENT " + clientHandler.username + " HAS"
+                        + " LOGGED OUT.");
+            }
+        }
     }
 
 
@@ -123,14 +134,14 @@ public class Server {
                 this.ois = new ObjectInputStream(socket.getInputStream());
                 // Get username.
                 this.username = (String) ois.readObject();
-                System.out.println(username + "HAS JOINED DA CREW!");
+                System.out.println(username + " HAS JOINED DA CREW!");
             } catch (Exception e) {
                 System.err.println("ERROR!  COULD NOT CREATE I/O STREAMS.");
                 e.printStackTrace();
                 return;
             }
 
-            date = new Date().toString() + "\n";
+//            date = new Date().toString() + "\n";
         }
 
 
@@ -166,7 +177,7 @@ public class Server {
                         // MAN WHERE MY CREW AT?!?!?!?!?
                         case Message.CREWAT:
                             writeMessage("THE CREW IS AS FOLLOWS (" +
-                                    simpleDateFormat.format(new Date()) +
+//                                    simpleDateFormat.format(new Date()) +
                                     "):\n");
                             // Scan ArrayList to get all da Crew.
                             for (int i = 0; i < clients.size(); i++) {
