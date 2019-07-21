@@ -1,10 +1,14 @@
-
 /*
  * File:        Message.java
  * Purpose:     Defines the different type of messages that can be exchanged
  *              between a Client and the Server, and represents the physical
  *              message object being sent around.
  */
+
+
+import java.io.Serializable;
+
+
 public class Message implements Serializable {
 
     // Generated with Eclipse.... used to avoid InvalidClassException error.

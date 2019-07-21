@@ -8,6 +8,7 @@
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 
 public class Client {
@@ -30,7 +31,7 @@ public class Client {
 
     // Constructor invoked by GUI.
     Client(String username, ClientGUI clientGUI) {
-        this.usuername = username;
+        this.username = username;
         this.clientGUI = clientGUI;
     }
 
@@ -43,7 +44,7 @@ public class Client {
 
         // Try connecting to Server.
         try {
-            this.socket = new Socket(server, port);
+            this.socket = new Socket(server, PORT);
         } catch (Exception e) {
             display("ERROR CONNECTING TO SERVER! " + e);
             // If connection failed, return false.
@@ -69,8 +70,9 @@ public class Client {
         // Send username to server as String (unlike ALL other messages!)
         try {
             oos.writeObject(username);
-        } catch (IOException e) {
-            display("ERROR:  COULD NOT SEND USERNAME TO SERVER: " + e);
+        } catch (Exception e) {
+            display("ERROR:  COULD NOT SEND USERNAME TO SERVER: ");
+            e.printStackTrace();
             disconnect();
             return false;
         }
@@ -120,7 +122,7 @@ public class Client {
     /*
      * Send a message to the server.
      */
-    private void sendMessage(ChatMessage message) {
+    private void sendMessage(Message message) {
         try {
             oos.writeObject(message);
         } catch (Exception e) {
@@ -168,16 +170,15 @@ public class Client {
 
             if (message.equalsIgnoreCase("LOGOUT")) {
                 // Log out if message is LOGOUT.
-                client.sendMessage(new ChatMessage(ChatMessage.LOGOUT, ""));
+                client.sendMessage(new Message(Message.LOGOUT, ""));
                 // Disconnect from server by breaking out of while()
                 break;
             } else if (message.equalsIgnoreCase("CREWAT")) {
                 // Send request for who's in the chat server.
-                client.sendMessage(new ChatMessage(ChatMessage.CREWAT, ""));
+                client.sendMessage(new Message(Message.CREWAT, ""));
             } else {
                 // Regular message by default.
-                client.sendMessage(new ChatMessage(ChatMessage.MESSAGE,
-                            message));
+                client.sendMessage(new Message(Message.MESSAGE, message));
             }
         }
         // Disconnect from server once we've broken out of infinite loop.
@@ -199,22 +200,19 @@ public class Client {
                 try {
                     String message = (String) ois.readObject();
                     // Print to System.out if GUI is not running.
-                    if (this.clientGUI == null) {
+                    if (clientGUI == null) {
                         System.out.println(message);
                         System.out.print("> ");
                     } else {
-                        this.clientGUI.append(message);
+                        clientGUI.append(message);
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     display("ERROR:  SERVER HAS CLOSED THE CONNECTION! "
                             + e);
-                    if (this.clientGUI != null) {
-                        this.clientGUI.connectionFailed();
+                    if (clientGUI != null) {
+                        clientGUI.connectionFailed();
                     }
                     break;
-                } catch (ClassNotFoundException e) {
-                    // Should not happen with String Object but needed anyways.
-                    display(e);
                 }
             }
         }
