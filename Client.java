@@ -51,7 +51,7 @@ public class Client {
             return false;
         }
         tmp = "CONNECTION ESTABLISHED WITH SERVER: " +
-            this.socket.getInetAddress() + ":" + this.socket.getPort();
+            this.socket.getInetAddress() + ":" + this.socket.getPort() + "\n";
         display(tmp);
 
         // Initialize Data Streams.
@@ -201,14 +201,14 @@ public class Client {
                     String message = (String) ois.readObject();
                     // Print to System.out if GUI is not running.
                     if (clientGUI == null) {
-                        System.out.println(message);
+                        System.out.print(message);
                         System.out.print("> ");
                     } else {
                         clientGUI.append(message);
                     }
                 } catch (Exception e) {
                     display("ERROR:  SERVER HAS CLOSED THE CONNECTION! "
-                            + e);
+                            + e + "\n");
                     if (clientGUI != null) {
                         clientGUI.connectionFailed();
                     }
