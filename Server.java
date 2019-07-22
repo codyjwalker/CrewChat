@@ -184,7 +184,7 @@ public class Server {
                                 ClientHandler clientHandler =
                                     clients.get(i);
                                 writeMessage(i + ".) " + clientHandler.username
-                                        + " SINCE " + clientHandler.date);
+                                        + " SINCE " + clientHandler.date + "\n");
                             }
                             break;
                     } /* END switch() */

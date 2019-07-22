@@ -24,7 +24,9 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     private static final String HOST = "crewchat.hopto.org";
     private static final int PORT = 36979;
-    private static final long serialVersionUID = -8054809742223994483L;
+//    private static final long serialVersionUID = -8054809742223994483L;
+
+    private static final long serialVersionUID = -8054809829223994483L;
 
     private boolean connected;
     private JLabel label;
@@ -64,6 +66,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         logoutButton.setEnabled(false);     // Cant logout until logged in!
         crewAtButton = new JButton("MANNN, WHERE MY CREW AT?!?");
         crewAtButton.setEnabled(false);     // Not until logged in silly!
+        crewAtButton.addActionListener(this);
         JPanel southPanel = new JPanel();
         southPanel.add(loginButton);
         southPanel.add(logoutButton);

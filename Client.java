@@ -21,7 +21,7 @@ public class Client {
     private Socket socket;              // Connection to server.
     private ClientGUI clientGUI;        // NULL if launched from terminal.
     private String username;            // Name set by client user.
-    
+
 
     // Constructor invoked by terminal-only launch.
     Client(String username) {
