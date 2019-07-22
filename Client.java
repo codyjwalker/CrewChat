@@ -39,7 +39,7 @@ public class Client {
     /*
      * Starts everything up.
      */
-    private boolean init() {
+    boolean init() {
         String tmp;
 
         // Try connecting to Server.
@@ -122,7 +122,7 @@ public class Client {
     /*
      * Send a message to the server.
      */
-    private void sendMessage(Message message) {
+    void sendMessage(Message message) {
         try {
             oos.writeObject(message);
         } catch (Exception e) {

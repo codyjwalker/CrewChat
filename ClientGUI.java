@@ -50,7 +50,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         add(northPanel, BorderLayout.NORTH);
 
         // Center panel for the chatroom.
-        textArea = new JTextArea("WELCOME TO THE CREW =D\n", 80, 80);
+        textArea = new JTextArea("WELCOME TO THE CREW =D\n", 80, 30);
         JPanel centerPanel = new JPanel(new GridLayout(1, 1));
         centerPanel.add(new JScrollPane(textArea));
         textArea.setEditable(false);
@@ -72,11 +72,91 @@ public class ClientGUI extends JFrame implements ActionListener {
 
         // Characteristics of Window.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(600, 600);
+        setSize(500, 800);  // Height, Width
         setVisible(true);
         textField.requestFocus();
+    }
 
 
+    /*
+     * Called by GUI upon failing to connect... reset buttons, label, &
+     * textField.
+     */
+    void connectionFailed() {
+        loginButton.setEnabled(true);
+        logoutButton.setEnabled(false);
+        crewAtButton.setEnabled(false);
+        label.setText("ENTER USERNAME BELOW:");
+        textField.setText("ANON");
+        // Dont react to <CR>
+        textField.removeActionListener(this);
+        connected = false;
+    }
+
+
+    /* 
+     * Called by Client to append text to JTextArea
+     */
+    void append(String message) {
+        textArea.append(message);
+        textArea.setCaretPosition(textArea.getText().length() - 1);
+    }
+
+
+    /*
+     * Called when user clicks a button in order to figure out what to
+     * do based on the button pressed.
+     */
+    public void actionPerformed(ActionEvent e) {
+
+        Object obj = e.getSource();
+
+        // LOG OUT button.
+        if (obj == logoutButton) {
+            client.sendMessage(new Message(Message.LOGOUT, ""));
+            return;
+        }
+        
+        // MAN WHERE MY CREW AT button.
+        if (obj == crewAtButton) {
+            client.sendMessage(new Message(Message.CREWAT, ""));
+            return;
+        }
+
+        // JTextField.
+        if (connected) {
+            // Simply send the message!
+            client.sendMessage(new Message(Message.MESSAGE,
+                        textField.getText()));
+            textField.setText("");
+            return;
+        }
+
+        // LOG IN button, connection request.
+        if (obj == loginButton) {
+            String username = textField.getText().trim();
+            // Ignore & return if no username entered.
+            if (username.length() == 0) {
+                return;
+            }
+            
+            // Try creating new Client with GUI.
+            client = new Client(username, this);
+            if (!client.init()) {
+                return;
+            }
+            
+            // Clear the textfield for user input.
+            textField.setText("");
+            label.setText("ENTER YOUR MESSAGE BELOW:");
+            connected = true;
+
+            // Change availability of buttons.
+            loginButton.setEnabled(false);
+            logoutButton.setEnabled(true);
+            crewAtButton.setEnabled(true);
+            textField.addActionListener(this);
+        }
 
 
     }
@@ -87,14 +167,5 @@ public class ClientGUI extends JFrame implements ActionListener {
     }
 
 
-    protected void connectionFailed() {
-    }
 
-
-    protected void append(String message) {
-    }
-
-
-    public void actionPerformed(ActionEvent e) {
-    }
 }
