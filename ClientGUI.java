@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -38,25 +39,25 @@ public class ClientGUI extends JFrame implements ActionListener {
     public ClientGUI() {
         super("Chat Client");
 
-        // 3 grids tall, 1 grid wide.
-        JPanel northPanel = new JPanel(new GridLayout(3, 1));
-
+        // Input Panel: 3 grids wide, 1 grid tall.
+        JPanel inputPanel = new JPanel(new GridLayout(3, 1));
         // Label.
         label = new JLabel("ENTER USERNAME BELOW:", SwingConstants.CENTER);
-        northPanel.add(label);
-
+        inputPanel.add(label);
         // TextField.
         textField = new JTextField("ANON");
         textField.setBackground(Color.WHITE);
-        northPanel.add(textField);
-        add(northPanel, BorderLayout.NORTH);
+        inputPanel.add(textField);
+        add(inputPanel, BorderLayout.NORTH);
 
         // Center panel for the chatroom.
+        // TODO: JTextPane!!!
         textArea = new JTextArea("WELCOME TO THE CREW =D\n", 80, 30);
-        JPanel centerPanel = new JPanel(new GridLayout(1, 1));
-        centerPanel.add(new JScrollPane(textArea));
+        JPanel chatPanel = new JPanel(new GridLayout(1, 1));
+        chatPanel.add(new JScrollPane(textArea));
         textArea.setEditable(false);
-        add(centerPanel, BorderLayout.CENTER);
+        textArea.setBackground(new Color(28, 128, 54));
+        add(chatPanel, BorderLayout.CENTER);
 
         // The three buttons.
         loginButton = new JButton("LOG IN");
@@ -65,13 +66,13 @@ public class ClientGUI extends JFrame implements ActionListener {
         logoutButton.addActionListener(this);
         logoutButton.setEnabled(false);     // Cant logout until logged in!
         crewAtButton = new JButton("MANNN, WHERE MY CREW AT?!?");
-        crewAtButton.setEnabled(false);     // Not until logged in silly!
+        crewAtButton.setEnabled(false);     // Not until logged in ya goof!
         crewAtButton.addActionListener(this);
-        JPanel southPanel = new JPanel();
-        southPanel.add(loginButton);
-        southPanel.add(logoutButton);
-        southPanel.add(crewAtButton);
-        add(southPanel, BorderLayout.SOUTH);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(loginButton);
+        buttonPanel.add(logoutButton);
+        buttonPanel.add(crewAtButton);
+        add(buttonPanel, BorderLayout.SOUTH);
 
         // Characteristics of Window.
         setDefaultCloseOperation(EXIT_ON_CLOSE);

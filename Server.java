@@ -158,6 +158,8 @@ public class Server {
                     // Read Message Object.
                     this.message = (Message) ois.readObject();
                     
+                    // TODO: INVESTIGATE IF THIS IS CAUSING ERRORS TO BE THROWN
+                    //       ON LOGOUT (OR PERHAPS ALSO CREWAT?)
                     // Extract textual part of Message
                     textMsg = message.getMessage();
 
