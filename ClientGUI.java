@@ -48,7 +48,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         lightGrey = new Color(48, 48, 48);
         darkGrey = new Color(24, 24, 24);
         offWhite = new Color(224, 224, 224);
-        font = new Font("Serif", Font.PLAIN, 16);
+        font = new Font("Serif", Font.BOLD, 16);
 
         // Input Panel: 3 grids wide, 1 grid tall.
         JPanel inputPanel = new JPanel(new GridLayout(3, 1));
@@ -73,8 +73,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         keyword = new SimpleAttributeSet();
         StyleConstants.setForeground(keyword, offWhite);
         StyleConstants.setFontSize(keyword, 16);
-        StyleConstants.setFontFamily(keyword, "Courier");
-//        StyleConstants.setBold(keyword, true);
+        StyleConstants.setFontFamily(keyword, "Serif");
+        StyleConstants.setBold(keyword, true);
         JPanel chatPanel = new JPanel(new GridLayout(1, 1));
         chatPanel.add(new JScrollPane(textPane));
         textPane.setEditable(false);
