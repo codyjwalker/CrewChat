@@ -6,6 +6,7 @@
  */
 
 
+
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.net.ServerSocket;
@@ -141,7 +142,7 @@ public class Server {
                 return;
             }
 
-//            date = new Date().toString() + "\n";
+            date = new Date().toString() + "\n";
         }
 
 
@@ -178,9 +179,9 @@ public class Server {
 
                         // MAN WHERE MY CREW AT?!?!?!?!?
                         case Message.CREWAT:
-                            writeMessage("THE CREW IS AS FOLLOWS (" +
+                            writeMessage("THE CREW IS AS FOLLOWS" +
 //                                    simpleDateFormat.format(new Date()) +
-                                    "):\n");
+                                    ":\n");
                             // Scan ArrayList to get all da Crew.
                             for (int i = 0; i < clients.size(); i++) {
                                 ClientHandler clientHandler =
