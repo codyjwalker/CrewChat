@@ -50,6 +50,7 @@ public class Client {
             // If connection failed, return false.
             return false;
         }
+        display("WELCOME TO DA CREW =D\n");
         tmp = "CONNECTION ESTABLISHED WITH SERVER: " +
             this.socket.getInetAddress() + ":" + this.socket.getPort() + "\n";
         display(tmp);
