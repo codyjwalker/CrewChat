@@ -208,8 +208,8 @@ public class Client {
                         clientGUI.append(message);
                     }
                 } catch (Exception e) {
-                    display("ERROR:  SERVER HAS CLOSED THE CONNECTION! "
-                            + e + "\n");
+                    display("SERVER HAS CLOSED THE CONNECTION! "
+                            + "\n");
                     if (clientGUI != null) {
                         clientGUI.connectionFailed();
                     }
