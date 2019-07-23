@@ -41,14 +41,17 @@ public class ClientGUI extends JFrame implements ActionListener {
     private StyledDocument doc;
     private SimpleAttributeSet keyword;
     private Color lightGrey, darkGrey, offWhite;
-    private Font font;
+    private Font font, buttonFont;
 
     public ClientGUI() {
         super("Chat Client");
+
+        // Predefined Colors and Fonts.
         lightGrey = new Color(48, 48, 48);
         darkGrey = new Color(24, 24, 24);
-        offWhite = new Color(224, 224, 224);
+        offWhite = new Color(200, 200, 200);
         font = new Font("Serif", Font.BOLD, 16);
+        buttonFont = new Font("Serif", Font.BOLD, 13);
 
         // Input Panel: 3 grids wide, 1 grid tall.
         JPanel inputPanel = new JPanel(new GridLayout(3, 1));
@@ -87,12 +90,14 @@ public class ClientGUI extends JFrame implements ActionListener {
         loginButton.setOpaque(false);
         loginButton.setBackground(darkGrey);
         loginButton.setForeground(offWhite);
+        loginButton.setFont(buttonFont);
         loginButton.addActionListener(this);
         // LOG OUT.
         logoutButton = new JButton("LOG OUT");
         logoutButton.setOpaque(false);
         logoutButton.setBackground(darkGrey);
         logoutButton.setForeground(offWhite);
+        logoutButton.setFont(buttonFont);
         logoutButton.addActionListener(this);
         logoutButton.setEnabled(false);     // Cant logout until logged in!
         // MANNNNN, WHERE MY CREW AT???
@@ -101,6 +106,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         crewAtButton.setOpaque(false);
         crewAtButton.setBackground(darkGrey);
         crewAtButton.setForeground(offWhite);
+        crewAtButton.setFont(buttonFont);
         crewAtButton.addActionListener(this);
         // Button panel.
         JPanel buttonPanel = new JPanel();
