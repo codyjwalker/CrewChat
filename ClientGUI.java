@@ -40,24 +40,30 @@ public class ClientGUI extends JFrame implements ActionListener {
 
     private StyledDocument doc;
     private SimpleAttributeSet keyword;
-    private Color myGrey;
+    private Color lightGrey, darkGrey, offWhite;
+    private Font font;
 
     public ClientGUI() {
         super("Chat Client");
-        myGrey = new Color(48, 48, 48);
+        lightGrey = new Color(48, 48, 48);
+        darkGrey = new Color(24, 24, 24);
+        offWhite = new Color(224, 224, 224);
+        font = new Font("Serif", Font.PLAIN, 16);
 
         // Input Panel: 3 grids wide, 1 grid tall.
         JPanel inputPanel = new JPanel(new GridLayout(3, 1));
         // Label.
         label = new JLabel("ENTER USERNAME BELOW:", SwingConstants.CENTER);
-        label.setForeground(Color.WHITE);
+        label.setForeground(offWhite);
         inputPanel.add(label);
-        label.setFont(new Font("Serif", Font.BOLD, 16));
+        label.setFont(font);
         // TextField.
         textField = new JTextField("ANON");
-        textField.setBackground(Color.WHITE);
+        textField.setBackground(lightGrey);
+        textField.setForeground(offWhite);
+        textField.setFont(font);
         inputPanel.add(textField);
-        inputPanel.setBackground(myGrey);
+        inputPanel.setBackground(darkGrey);
         inputPanel.setOpaque(true);
         add(inputPanel, BorderLayout.NORTH);
 
@@ -65,48 +71,49 @@ public class ClientGUI extends JFrame implements ActionListener {
         textPane = new JTextPane();
         doc = textPane.getStyledDocument();
         keyword = new SimpleAttributeSet();
-        StyleConstants.setForeground(keyword, Color.WHITE);
+        StyleConstants.setForeground(keyword, offWhite);
         StyleConstants.setFontSize(keyword, 16);
+        StyleConstants.setFontFamily(keyword, "Courier");
 //        StyleConstants.setBold(keyword, true);
         JPanel chatPanel = new JPanel(new GridLayout(1, 1));
         chatPanel.add(new JScrollPane(textPane));
         textPane.setEditable(false);
-        textPane.setBackground(myGrey);
+        textPane.setBackground(lightGrey);
         add(chatPanel, BorderLayout.CENTER);
 
         // The three buttons.
         // LOG IN.
         loginButton = new JButton("LOG IN");
         loginButton.setOpaque(false);
-        loginButton.setBackground(myGrey);
-        loginButton.setForeground(Color.WHITE);
+        loginButton.setBackground(darkGrey);
+        loginButton.setForeground(offWhite);
         loginButton.addActionListener(this);
         // LOG OUT.
         logoutButton = new JButton("LOG OUT");
         logoutButton.setOpaque(false);
-        logoutButton.setBackground(myGrey);
-        logoutButton.setForeground(Color.WHITE);
+        logoutButton.setBackground(darkGrey);
+        logoutButton.setForeground(offWhite);
         logoutButton.addActionListener(this);
         logoutButton.setEnabled(false);     // Cant logout until logged in!
         // MANNNNN, WHERE MY CREW AT???
         crewAtButton = new JButton("MANNN, WHERE MY CREW AT?!?");
         crewAtButton.setEnabled(false);     // Not until logged in ya goof!
         crewAtButton.setOpaque(false);
-        crewAtButton.setBackground(myGrey);
-        crewAtButton.setForeground(Color.WHITE);
+        crewAtButton.setBackground(darkGrey);
+        crewAtButton.setForeground(offWhite);
         crewAtButton.addActionListener(this);
         // Button panel.
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(loginButton);
         buttonPanel.add(logoutButton);
         buttonPanel.add(crewAtButton);
-        buttonPanel.setBackground(myGrey);
+        buttonPanel.setBackground(darkGrey);
         buttonPanel.setOpaque(true);
         add(buttonPanel, BorderLayout.SOUTH);
 
         // Characteristics of Window.
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setBackground(myGrey);
+        setBackground(darkGrey);
         setSize(500, 800);  // Height, Width
         setVisible(true);
         textField.requestFocus();
