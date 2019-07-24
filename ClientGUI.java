@@ -19,6 +19,7 @@ import javax.swing.JTextPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.JScrollPane;
+import javax.swing.JScrollBar;
 import javax.swing.text.StyledDocument;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.SimpleAttributeSet;
@@ -42,6 +43,8 @@ public class ClientGUI extends JFrame implements ActionListener {
     private SimpleAttributeSet keyword;
     private Color lightGrey, darkGrey, offWhite;
     private Font font, buttonFont;
+    private JScrollPane jScrollPane;
+    private JScrollBar jScrollBar;
 
     public ClientGUI() {
         super("Chat Client");
@@ -79,7 +82,8 @@ public class ClientGUI extends JFrame implements ActionListener {
         StyleConstants.setFontFamily(keyword, "Serif");
         StyleConstants.setBold(keyword, true);
         JPanel chatPanel = new JPanel(new GridLayout(1, 1));
-        chatPanel.add(new JScrollPane(textPane));
+        jScrollPane = new JScrollPane(textPane);
+        chatPanel.add(jScrollPane);
         textPane.setEditable(false);
         textPane.setBackground(lightGrey);
         add(chatPanel, BorderLayout.CENTER);
@@ -151,6 +155,8 @@ public class ClientGUI extends JFrame implements ActionListener {
 //        textArea.setCaretPosition(textArea.getText().length() - 1);
         try {
             doc.insertString(doc.getLength(), message, keyword);
+            jScrollBar = jScrollPane.getVerticalScrollBar();
+            jScrollBar.setValue(jScrollBar.getMaximum());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -183,6 +189,8 @@ public class ClientGUI extends JFrame implements ActionListener {
             client.sendMessage(new Message(Message.MESSAGE,
                         textField.getText()));
             textField.setText("");
+            jScrollBar = jScrollPane.getVerticalScrollBar();
+            jScrollBar.setValue(jScrollBar.getMaximum());
             return;
         }
 
