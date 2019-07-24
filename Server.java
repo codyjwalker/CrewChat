@@ -186,7 +186,8 @@ public class Server {
                             for (int i = 0; i < clients.size(); i++) {
                                 ClientHandler clientHandler =
                                     clients.get(i);
-                                writeMessage(i + ".) " + clientHandler.username
+                                writeMessage((i + 1) + ".) " +
+                                        clientHandler.username
                                         + " SINCE " + clientHandler.date);
                             }
                             break;
