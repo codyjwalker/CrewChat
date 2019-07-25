@@ -10,17 +10,30 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
+//import javax.sound.sampled.AudioInputStream;
+//import javax.sound.sampled.AudioSystem;
+//import javax.sound.sampled.Clip;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.FileInputStream;
+import sun.audio.AudioStream;
+import sun.audio.AudioPlayer;
 
 public class Client {
 
     private final static int PORT = 36979;
     private final static String server = "crewchat.hopto.org";
+    private final static String filepath = "gong.wav";
 
     private ObjectInputStream ois;      // Read from socket.
     private ObjectOutputStream oos;     // Write to socket.
     private Socket socket;              // Connection to server.
     private ClientGUI clientGUI;        // NULL if launched from terminal.
     private String username;            // Name set by client user.
+    private InputStream music;
+    private AudioStream audios;
+
 
 
     // Constructor invoked by terminal-only launch.
@@ -41,6 +54,15 @@ public class Client {
      */
     boolean init() {
         String tmp;
+
+        try {
+            // Setup input stream for notification sound file.
+            music = new FileInputStream(new File(filepath));
+            audios = new AudioStream(music);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         // Try connecting to Server.
         try {
@@ -107,6 +129,23 @@ public class Client {
     }
 
 
+    private void playSound() {
+
+        try {
+                AudioPlayer.player.start(audios);
+            /*
+            AudioInputStream audioIn = AudioSystem.getAudioInputStream(
+                    this.getClass().getResource("ding.mp3"));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.start();
+            */
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+   }
+
+
     /*
      * Either display message in GUI if it's running, or simply print it
      * to System.out if not.
@@ -114,6 +153,7 @@ public class Client {
     private void display(String message) {
         if (this.clientGUI != null) {
             this.clientGUI.append(message + "\n");
+            playSound();
         } else {
             System.out.print(message);
         }
