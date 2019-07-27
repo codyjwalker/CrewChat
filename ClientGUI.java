@@ -25,6 +25,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.SimpleAttributeSet;
 
 
+// TODO:    FIGURE OUT WHY SOUND ISNT WORKING PROPERLY
+
+
 public class ClientGUI extends JFrame implements ActionListener {
 
     private static final String HOST = "crewchat.hopto.org";
