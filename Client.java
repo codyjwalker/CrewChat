@@ -10,10 +10,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-//import javax.sound.sampled.AudioInputStream;
-//import javax.sound.sampled.AudioSystem;
-//import javax.sound.sampled.Clip;
-
 import java.io.File;
 import java.io.InputStream;
 import java.io.FileInputStream;
@@ -31,9 +27,7 @@ public class Client {
     private Socket socket;              // Connection to server.
     private ClientGUI clientGUI;        // NULL if launched from terminal.
     private String username;            // Name set by client user.
-    private InputStream music;
     private AudioStream audios;
-
 
 
     // Constructor invoked by terminal-only launch.
@@ -54,14 +48,6 @@ public class Client {
      */
     boolean init() {
         String tmp;
-
-        try {
-            // Setup input stream for notification sound file.
-            music = new FileInputStream(new File(filepath));
-            audios = new AudioStream(music);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
 
         // Try connecting to Server.
@@ -132,15 +118,11 @@ public class Client {
     private void playSound() {
 
         try {
-                AudioPlayer.player.start(audios);
-            /*
-            AudioInputStream audioIn = AudioSystem.getAudioInputStream(
-                    this.getClass().getResource("ding.mp3"));
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.start();
-            */
+            // Setup input stream for notification sound file.
+            audios = new AudioStream(new FileInputStream(new File(filepath)));
+            AudioPlayer.player.start(audios);
         } catch (Exception e) {
+            System.err.println("ERROR:  COULD NOT PLAY SOUND FILE.");
             e.printStackTrace();
         }
    }
@@ -153,7 +135,6 @@ public class Client {
     private void display(String message) {
         if (this.clientGUI != null) {
             this.clientGUI.append(message + "\n");
-            playSound();
         } else {
             System.out.print(message);
         }
@@ -240,6 +221,9 @@ public class Client {
             while (true) {
                 try {
                     String message = (String) ois.readObject();
+
+                    playSound();
+
                     // Print to System.out if GUI is not running.
                     if (clientGUI == null) {
                         System.out.print(message);
