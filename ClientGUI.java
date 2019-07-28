@@ -25,9 +25,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.SimpleAttributeSet;
 
 
-// TODO:    FIGURE OUT WHY SOUND ISNT WORKING PROPERLY
-
-
 public class ClientGUI extends JFrame implements ActionListener {
 
     private static final String HOST = "crewchat.hopto.org";
@@ -131,7 +128,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         setVisible(true);
         textField.requestFocus();
 
-    }
+    } /* END ClientGUI() */
 
 
     /*
@@ -147,15 +144,13 @@ public class ClientGUI extends JFrame implements ActionListener {
         // Dont react to <CR>
         textField.removeActionListener(this);
         connected = false;
-    }
+    } /* END connectionFailed() */
 
 
     /* 
      * Called by Client to append text to JTextArea
      */
     void append(String message) {
-//        textArea.append(message);
-//        textArea.setCaretPosition(textArea.getText().length() - 1);
         try {
             doc.insertString(doc.getLength(), message, keyword);
             jScrollBar = jScrollPane.getVerticalScrollBar();
@@ -163,7 +158,7 @@ public class ClientGUI extends JFrame implements ActionListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    } /* END append() */
 
 
     /*
@@ -222,15 +217,12 @@ public class ClientGUI extends JFrame implements ActionListener {
             crewAtButton.setEnabled(true);
             textField.addActionListener(this);
         }
-
-
-    }
+        return;
+    } /* END actionPerformed() */
 
 
     public static void main(String[] args) {
         new ClientGUI();
-    }
+    } /* END main() */
+} /* END ClientGUI.java */
 
-
-
-}

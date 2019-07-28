@@ -22,17 +22,20 @@ public class Message implements Serializable {
     static final int LOGOUT = 1;    // Disconnect from server.
     static final int CREWAT = 2;    // Get list of users currently connected.
 
+
     Message(int type, String message) {
         this.type = type;
         this.message = message;
-    }
+    } /* END Message() */
+
 
     int getType() {
         return this.type;
-    }
+    } /* END getType() */
+
 
     String getMessage() {
         return this.message;
-    }
+    } /* END getMessage() */
+} /* END Message.java */
 
-}

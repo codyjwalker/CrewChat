@@ -6,7 +6,6 @@
  */
 
 
-
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.net.ServerSocket;
@@ -50,7 +49,7 @@ public class Server {
             e.printStackTrace();
         }
         return;
-    }
+    } /* END start() */
 
 
     /*
@@ -75,7 +74,7 @@ public class Server {
                         clientHandler.username);
             }
         }
-    }
+    } /* END broadcast() */
 
 
     /*
@@ -91,7 +90,7 @@ public class Server {
                         + " LOGGED OUT.");
             }
         }
-    }
+    } /* END remove() */
 
 
     /*
@@ -103,7 +102,7 @@ public class Server {
         // Start a new Server.
         new Server().start();
         return;
-    }
+    } /* END main() */
 
 
     /*
@@ -143,7 +142,7 @@ public class Server {
             }
 
             date = new Date().toString() + "\n";
-        }
+        } /* END CliendHandler() */
 
 
         /*
@@ -201,7 +200,7 @@ public class Server {
             // If out of infinite loop, remove self from Clients list.
             remove(ID);
             close();
-        }
+        } /* END run() */
 
 
         /*
@@ -220,7 +219,7 @@ public class Server {
                 }
             } catch (Exception e) {
             }
-        }
+        } /* END close() */
 
 
         /*
@@ -241,6 +240,6 @@ public class Server {
             }
 
             return true;
-        }
-    }
-}
+        } /* END writeMessage() */
+    } /* END ClientHandler{} */
+} /* END Server.java */

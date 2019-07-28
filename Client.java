@@ -33,14 +33,14 @@ public class Client {
     // Constructor invoked by terminal-only launch.
     Client(String username) {
         this(username, null);
-    }
+    } /* END Client() */
 
 
     // Constructor invoked by GUI.
     Client(String username, ClientGUI clientGUI) {
         this.username = username;
         this.clientGUI = clientGUI;
-    }
+    } /* END Client() */
 
 
     /*
@@ -88,7 +88,7 @@ public class Client {
 
         // If we've made it this far, SUCCESS!!!
         return true;
-    }
+    } /* END init() */
 
 
     /*
@@ -112,7 +112,7 @@ public class Client {
         } catch (Exception e) {
             System.err.println("WELLLLLL THIS IS BAD");
         }
-    }
+    } /* END disconnect() */
 
 
     private void playSound() {
@@ -125,7 +125,7 @@ public class Client {
             System.err.println("ERROR:  COULD NOT PLAY SOUND FILE.");
             e.printStackTrace();
         }
-   }
+   } /* END playSound() */
 
 
     /*
@@ -138,7 +138,7 @@ public class Client {
         } else {
             System.out.print(message);
         }
-    }
+    } /* END display() */
 
 
     /*
@@ -150,7 +150,7 @@ public class Client {
         } catch (Exception e) {
             display("ERROR:  COULD NOT SEND TO SERVER! " + e);
         }
-    }
+    } /* END sendMessage() */
 
 
     /*
@@ -206,7 +206,7 @@ public class Client {
         // Disconnect from server once we've broken out of infinite loop.
         client.disconnect();
         return;
-    }
+    } /* END main() */
 
 
 
@@ -240,6 +240,6 @@ public class Client {
                     break;
                 }
             }
-        }
-    }
-}
+        } /* END run() */
+    } /* END ServerListener */
+} /* END Client.java */
