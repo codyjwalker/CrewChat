@@ -9,7 +9,7 @@
 
 
 public class ChatRoom {
-
+/*
 
     private String name;
     private ArrayList<ClientHandler> chatRoomClients;
@@ -30,5 +30,6 @@ public class ChatRoom {
         return this.chatRoomClients;
     }
 
+    */
 
 } /* END ChatRoom.java */
