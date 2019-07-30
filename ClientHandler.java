@@ -1,8 +1,15 @@
-
 /*
  * Each Client will have their own ClientHandler running as its own
  * thread.
  */
+
+
+import java.net.Socket;
+import java.util.Date;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+
 class ClientHandler extends Thread {
 
     private int ID;                 // Client's unique ID.
@@ -17,15 +24,15 @@ class ClientHandler extends Thread {
     /*
      * Constructor for ClientHandler, takes socket from Server.
      */
-    ClientHandler(Socket socket) {
+    ClientHandler(Socket socket, int ID, ObjectInputStream ois,
+            ObjectOutputStream oos) {
         // Assign a new unique ID to new Client.
-        this.ID = ++uniqueID;
+        this.ID = ID;
         this.cliSock = socket;
+        this.ois = ois;
+        this.oos = oos;
 
         try {
-            // Create I/O streams.
-            this.oos = new ObjectOutputStream(socket.getOutputStream());
-            this.ois = new ObjectInputStream(socket.getInputStream());
             // Get username.
             this.username = (String) ois.readObject();
             System.out.println(username + " HAS JOINED DA CREW!");
@@ -135,4 +142,65 @@ class ClientHandler extends Thread {
 
         return true;
     } /* END writeMessage() */
+
+
+
+    /*
+     * Called by ClientHandler of a Client upon logging out.
+     */
+    private synchronized void remove(int ID) {
+
+        for (int i = 0; i < clients.size(); ++i) {
+            ClientHandler clientHandler = clients.get(i);
+            if (clientHandler.ID == ID) {
+                clients.remove(i);
+                System.out.println("CLIENT " + clientHandler.username + " HAS"
+                        + " LOGGED OUT.");
+            }
+        }
+    } /* END remove() */
+
+
+
+
+
+
+
+
+
+
+
+
+    /*
+     * Broadcast message to all clients in the Server.
+     */
+    private synchronized void broadcast(String message) {
+        // Add time to beginning and newline to end of message.
+        //String timeStr = this.simpleDateFormat.format(new Date());
+        //String finalMessage = timeStr + " " + message + "\n";
+        String finalMessage = message + "\n";
+        System.out.print(finalMessage);
+
+        // Loop in reverse order in case a Client disconnected.
+        for (int i = clients.size(); --i >= 0;) {
+
+            ClientHandler clientHandler = clients.get(i);
+
+            // Try writing to Client & REMOVE client if writing fails.
+            if (!clientHandler.writeMessage(finalMessage)) {
+                clients.remove(i);
+                System.out.println("DISCONNECTED CLIENT " +
+                        clientHandler.username);
+            }
+        }
+    } /* END broadcast() */
+
+
+
+
+
+
+
+
+
 } /* END ClientHandler.java */
