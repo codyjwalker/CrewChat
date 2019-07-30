@@ -8,6 +8,8 @@
  */
 
 
+import java.util.ArrayList;
+
 public class ChatRoom {
 
 
@@ -17,7 +19,7 @@ public class ChatRoom {
 
     public ChatRoom(String name) {
         this.name = name;
-        thiss.chatRoomClients = new ArrayList<ClientHandler>();
+        this.chatRoomClients = new ArrayList<ClientHandler>();
     }
 
     
