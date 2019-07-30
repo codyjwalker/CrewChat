@@ -21,6 +21,9 @@ class ClientHandler extends Thread {
     private String date;            // The date/time for message.
 
 
+
+
+
     /*
      * Constructor for ClientHandler, takes socket from Server.
      */
@@ -44,6 +47,16 @@ class ClientHandler extends Thread {
 
         date = new Date().toString() + "\n";
     } /* END CliendHandler() */
+
+
+    int getID() {
+        return this.ID;
+    }
+
+    String getUsername() {
+        return this.username;
+    }
+
 
 
     /*
@@ -83,12 +96,16 @@ class ClientHandler extends Thread {
 //                                    simpleDateFormat.format(new Date()) +
                                 ":\n");
                         // Scan ArrayList to get all da Crew.
-                        for (int i = 0; i < clients.size(); i++) {
-                            ClientHandler clientHandler =
-                                clients.get(i);
+                        int i = 0;
+                        for (ClientHandler clientHandler :
+                                Server.getActiveClients()) {
+//                        for (int i = 0; i < clients.size(); i++) {
+//                            ClientHandler clientHandler =
+//                                clients.get(i);
                             writeMessage((i + 1) + ".) " +
                                     clientHandler.username
                                     + " SINCE " + clientHandler.date);
+                            i++;
                         }
                         break;
                 } /* END switch() */
@@ -145,11 +162,37 @@ class ClientHandler extends Thread {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     /*
      * Called by ClientHandler of a Client upon logging out.
      */
     private synchronized void remove(int ID) {
 
+        Server.removeClient(ID);
+
+        /*
+//        for (ClientHandler clientHandler : Server.getActiveClients()) {
         for (int i = 0; i < clients.size(); ++i) {
             ClientHandler clientHandler = clients.get(i);
             if (clientHandler.ID == ID) {
@@ -158,17 +201,8 @@ class ClientHandler extends Thread {
                         + " LOGGED OUT.");
             }
         }
+        */
     } /* END remove() */
-
-
-
-
-
-
-
-
-
-
 
 
     /*
@@ -181,14 +215,19 @@ class ClientHandler extends Thread {
         String finalMessage = message + "\n";
         System.out.print(finalMessage);
 
-        // Loop in reverse order in case a Client disconnected.
-        for (int i = clients.size(); --i >= 0;) {
 
-            ClientHandler clientHandler = clients.get(i);
+        int i = 0;
+
+        for (ClientHandler clientHandler : Server.getActiveClients()) {
+        // Loop in reverse order in case a Client disconnected.
+//        for (int i = clients.size(); --i >= 0;) {
+
+//            ClientHandler clientHandler = clients.get(i);
 
             // Try writing to Client & REMOVE client if writing fails.
             if (!clientHandler.writeMessage(finalMessage)) {
-                clients.remove(i);
+//                clients.remove(i);
+                remove(clientHandler.getID());
                 System.out.println("DISCONNECTED CLIENT " +
                         clientHandler.username);
             }

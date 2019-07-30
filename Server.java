@@ -24,6 +24,26 @@ public class Server {
 //    private SimpleDateFormat simpleDateFormat;  // For displaying time.
 
 
+    static ArrayList<ClientHandler> getActiveClients() {
+        return clients;
+    }
+
+
+    static void removeClient(int ID) {
+
+//        for (ClientHandler clientHandler : Server.getActiveClients()) {
+        for (int i = 0; i < clients.size(); ++i) {
+            ClientHandler clientHandler = clients.get(i);
+
+            if (clientHandler.getID() == ID) {
+                clients.remove(i);
+                System.out.println("CLIENT " + clientHandler.getUsername() + 
+                        " HAS" + " LOGGED OUT.");
+            }
+        }
+
+    }
+
     /*
      * To run server, simply enter:
      *      java Server
@@ -31,7 +51,9 @@ public class Server {
      */
     public static void main(String[] args) {
 
-
+        Thread thread;
+        Socket socket;
+        ClientHandler clientHandler;
         ObjectInputStream ois;
         ObjectOutputStream oos;
 
@@ -54,15 +76,32 @@ public class Server {
 
             try {
             // Accept connection from new client.
-            Socket socket = serverSocket.accept();
+            socket = serverSocket.accept();
 
 
             // NEW NEW
+            //
+            //
+            //
+            //
+
+
 
             // Make new data streams.
             ois = new ObjectInputStream(socket.getInputStream());
             oos = new ObjectOutputStream(socket.getOutputStream());
 
+            System.out.println("CREATING NEW HANDLER FOR CLIENT.");
+            clientHandler = new ClientHandler(socket, numClients++, ois, oos);
+
+            // Create new thread out of ClientHandler.
+            thread = new Thread(clientHandler);
+
+            // Add client to activeClients list.
+            clients.add(clientHandler);
+            
+            // Start the new thread.
+            thread.start();
 
             // END NEW NEW
             //
@@ -73,10 +112,13 @@ public class Server {
             //
 
             // Create ClientHandler for new Client, add to list, & start.
-            ClientHandler clientHandler = new ClientHandler(socket,
-                    numClients++);
-            clients.add(clientHandler);
-            clientHandler.start();
+//            ClientHandler clientHandler = new ClientHandler(socket,
+//                    numClients++);
+//            clients.add(clientHandler);
+//            clientHandler.start();
+
+
+
             } catch (IOException e) {
                 System.err.println("ERROR:  COULD NOT GET DATA STREAMS!");
                 e.printStackTrace();
