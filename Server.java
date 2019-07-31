@@ -106,6 +106,9 @@ public class Server {
     } /* END main() */
 
 
+    // TODO:
+    // WHEN DONE WITH CAMPING TRIP, FIGURE OUT HOW TO 
+    // PROPERLY MAKE THIS ITS OWN CLASS FILE.
     /*
      * Each Client will have their own ClientHandler running as its own
      * thread.
