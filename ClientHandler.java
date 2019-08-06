@@ -48,7 +48,7 @@ class ClientHandler extends Thread {
             this.username = (String) ois.readObject();
             System.out.println(username + " HAS JOINED DA CREW!");
         } catch (Exception e) {
-            System.err.println("ERROR!  COULD NOT CREATE I/O STREAMS.");
+            System.err.println("ERROR!  COULD NOT READ USERNAME!");
             e.printStackTrace();
             return;
         }

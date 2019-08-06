@@ -19,6 +19,8 @@ import java.io.ObjectOutputStream;
 
 public class Server {
 
+    private final static boolean pdb = true;
+
     private final static int PORT = 36979;
 
     private static int numClients;        // ID for each connection.
@@ -47,6 +49,11 @@ public class Server {
 
     }
 
+
+    private static void display(String str) {
+        System.out.println(str);
+    }
+
     /*
      * To run server, simply enter:
      *      java Server
@@ -72,6 +79,8 @@ public class Server {
             e.printStackTrace();
         }
 
+        if (pdb) display("BOUND TO PORT " + PORT);
+
 
         // Infinite loop where Server waits for & accepts new connections.
         while (true) {
@@ -93,6 +102,8 @@ public class Server {
             // Make new data streams.
             ois = new ObjectInputStream(socket.getInputStream());
             oos = new ObjectOutputStream(socket.getOutputStream());
+
+            if (pdb) display("OBJECT I/O STREAMS SUCESSFULLY CREATED");
 
             System.out.println("CREATING NEW HANDLER FOR CLIENT.");
             clientHandler = new ClientHandler(socket, numClients++, ois, oos);

@@ -18,6 +18,8 @@ import sun.audio.AudioPlayer;
 
 public class Client {
 
+    private final static boolean pdb = true;
+
     private final static int PORT = 36979;
     private final static String server = "crewchat.hopto.org";
     private final static String filepath = "gong.wav";
@@ -73,8 +75,12 @@ public class Client {
             return false;
         }
 
+        if (pdb) display("OBJECT I/O STREAMS SUCESSFULLY CREATED");
+
         // Start a thread for listening to the server.
         new ServerListener().start();
+
+        if (pdb) display("SERVER LISTENER STARTED.");
 
         // Send username to server as String (unlike ALL other messages!)
         try {
@@ -85,6 +91,8 @@ public class Client {
             disconnect();
             return false;
         }
+
+        if (pdb) display("USERNAME SENT");
 
         // If we've made it this far, SUCCESS!!!
         return true;
