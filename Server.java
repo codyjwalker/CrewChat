@@ -109,6 +109,8 @@ public class Server {
     // TODO:
     // WHEN DONE WITH CAMPING TRIP, FIGURE OUT HOW TO 
     // PROPERLY MAKE THIS ITS OWN CLASS FILE.
+    // ACTUAL TODO:
+    // FILE HAS BEEN MADE, FIX THE BUGGIES!!!!!
     /*
      * Each Client will have their own ClientHandler running as its own
      * thread.
