@@ -210,6 +210,7 @@ public class Client {
 
 
 
+    // TODO: Make this its own class!
     /*
      * Class for listening to the server by waiting for the messages from it
      * and then appending them to the JTextArea if GUI is running, or
